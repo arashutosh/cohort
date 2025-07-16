@@ -1,22 +1,27 @@
+import { useEffect, useState } from "react";
+
 function App() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(()=>{
+    fetch("http://sum-server.100xdevs.com/todos")
+    .then(async function(res){
+      const json = await res.json();
+      setTodos(json);
+    })
+  },[]);
   return <div>
-<CardWrapper> hii thereeee</CardWrapper>
+    {todos.map(Todo=><Todo key={todos.id} title={todos.title} description={todos.description} />)}
   </div>
 }
 
-//   function TextComponent(){
-//   return(
-//     <div>
-//       hii there...!!
-//     </div>
-//   )
-// }
-
-function CardWrapper({children}){
-  return (
-    <div style={{border: "2px solid black"}}>
-      {children}
+function Todo({title, description}){
+  return(
+    <div>
+      <h1>{title}</h1>
+      <h1>{description}</h1>
     </div>
   )
 }
+
 export default App;
